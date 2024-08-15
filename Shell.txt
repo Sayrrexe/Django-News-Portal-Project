@@ -111,3 +111,15 @@ for comment in comments:
         comment.commentUser.username
         comment.rating
         comment.text
+
+'''
+Вывод: 
+datetime.datetime(2024, 8, 15, 17, 16, 13, 316055, tzinfo=datetime.timezone.utc)
+'Max'
+1
+'i like Django'
+datetime.datetime(2024, 8, 15, 17, 16, 21, 34145, tzinfo=datetime.timezone.utc)
+'Max'
+-3
+'i like Python'
+'''
