@@ -5,7 +5,7 @@ from django.db.models import Sum
 
 class Author(models.Model):
     author_user = models.OneToOneField(User, on_delete=models.CASCADE)
-    author_rating = models.SmallIntegerField(default=5)
+    author_rating = models.SmallIntegerField(default=0)
     
     def update_rating(self):
         PostRate = self.post_set.aggregate(postRating = Sum('post_rating'))
@@ -16,7 +16,7 @@ class Author(models.Model):
         cRat = 0
         cRat += CommentRat.get('CommentRating')
         
-        self.author_rating = pRat *3 + cRat
+        self.author_rating = pRat * 3 + cRat
         self.save()
         
         
@@ -38,7 +38,7 @@ class Post(models.Model):
     post_category = models.ManyToManyField(Category, through ='PostCategory')
     title = models.CharField(max_length=128)
     text = models.TextField()
-    post_rating = models.SmallIntegerField(default=5)
+    post_rating = models.SmallIntegerField(default=0)
     
     def like(self):
         self.post_rating += 1
