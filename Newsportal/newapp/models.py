@@ -49,10 +49,10 @@ class Post(models.Model):
         self.save()
     
     def preview(self):
-        return self.text[0:123] + '...'
+        return self.text[0:20] + '...'
     
     def __str__(self):
-        return f'{self.author.title()}: {self.text[:20]}'
+        return f'{self.author}: {self.title} - {self.text}, {self.category_type},{self.date_creation}'
 
 
 class PostCategory(models.Model):
