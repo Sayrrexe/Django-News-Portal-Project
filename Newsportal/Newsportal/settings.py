@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'newapp',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'django_filters',
 ]
 SITE_ID = 1
 
@@ -119,7 +120,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Путь к директории static в корне проекта
+    BASE_DIR / "static"
 ]
 
 # Default primary key field type
