@@ -1,8 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
 from .models import Post
 from .forms import NewsForm, ArticleForm
 from .filters import ProductFilter
-from django.urls import reverse_lazy
+
 
 
 class NewsList(ListView):
@@ -31,7 +34,8 @@ class NewsDetail(DetailView):
 
     
     
-class NewsCreate(CreateView):
+class NewsCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     form_class = NewsForm
     model = Post
     template_name = 'News_edit.html'
@@ -52,7 +56,8 @@ class NewsDelete(DeleteView):
     template_name = 'news_delete.html'
     success_url = reverse_lazy('news_list')
     
-class ArticleCreate(CreateView):
+class ArticleCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     form_class = ArticleForm
     model = Post
     template_name = 'News_edit.html'
