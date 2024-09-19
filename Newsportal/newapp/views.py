@@ -5,10 +5,12 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Exists, OuterRef
 from django.shortcuts import render
+from django.template.loader import render_to_string
+
 from .models import Post, Subscription, Category
 from .forms import NewsForm, ArticleForm
 from .filters import ProductFilter
-
+from .tasks import new_post_notification
 
 
 class NewsList(ListView):
@@ -17,6 +19,10 @@ class NewsList(ListView):
     template_name = 'news.html'
     context_object_name = 'news'
     paginate_by = 10
+    # Отправка уведомления через calery
+    subject = f'вами создана новая новость!'
+    email = request.user.email
+    new_post_notification.delay(subject, email)
 
     def get_queryset(self):
         queryset = super().get_queryset()
