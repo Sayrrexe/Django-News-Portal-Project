@@ -59,6 +59,114 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'formatters': {
+        'simple': {
+            'format': '{asctime} {levelname} {message}',
+            'style': '{',
+        },
+        'simple2': {
+            'format': '{asctime} {levelname} {message} {pathname}',
+            'style': '{',
+        },
+        'simple3': {
+            'format': '{asctime} {levelname} {message} {pathname} {exc_info}',
+            'style': '{',
+        },
+        'simple4': {
+            'format': '{asctime} {levelname} {message} {module}',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+            'filters': ['require_debug_true'],
+        },
+        'console2': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple2',
+            'filters': ['require_debug_true'],
+        },
+        'console3': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple3',
+            'filters': ['require_debug_true'],
+        },
+        'general': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'simple4',
+            'filters': ['require_debug_false'],
+        },
+        'errors': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'errors.log',
+            'formatter': 'simple3',
+        },
+        'security': {
+            'class': 'logging.FileHandler',
+            'filename': 'security.log',
+            'formatter': 'simple4',
+        },
+        'mail_admins': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'simple4'
+        }
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'console2', 'console3', 'general',],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['errors', 'mail_admins'],
+            'propagate': True,
+            'level': 'ERROR',
+        },
+        'django.server': {
+            'handlers': ['errors', 'mail_admins'],
+            'propagate': True,
+            'level': 'ERROR',
+        },
+        'django.template': {
+            'handlers': ['errors'],
+            'propagate': True,
+            'level': 'ERROR',
+        },
+        'django.db_backends': {
+            'handlers': ['errors'],
+            'propagate': True,
+            'level': 'ERROR',
+        },
+        'django.security': {
+            'handlers': ['security',],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+    }
+}
 ROOT_URLCONF = 'Newsportal.urls'
 
 TEMPLATES = [

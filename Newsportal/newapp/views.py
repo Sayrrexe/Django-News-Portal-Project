@@ -20,9 +20,7 @@ class NewsList(ListView):
     context_object_name = 'news'
     paginate_by = 10
     # Отправка уведомления через calery
-    subject = f'вами создана новая новость!'
-    email = request.user.email
-    new_post_notification.delay(subject, email)
+    
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -32,6 +30,10 @@ class NewsList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filterset'] = self.filterset
+        
+        # Sending notification within the method where request is accessible
+        
+        
         return context
 
         
@@ -47,7 +49,7 @@ class NewsCreate(LoginRequiredMixin, CreateView):
     raise_exception = True
     form_class = NewsForm
     model = Post
-    template_name = 'News_edit.html'
+    template_name = 'news_edit.html'
     
     def form_valid(self, form):
         product = form.save(commit=False)
@@ -57,7 +59,7 @@ class NewsCreate(LoginRequiredMixin, CreateView):
 class NewsUpdate(UpdateView):
     form_class = NewsForm
     model = Post
-    template_name = 'News_edit.html'
+    template_name = 'news_edit.html'
     
     
 class NewsDelete(DeleteView):
@@ -69,7 +71,7 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
     raise_exception = True
     form_class = ArticleForm
     model = Post
-    template_name = 'News_edit.html'
+    template_name = 'news_edit.html'
     
     def form_valid(self, form):
         product = form.save(commit=False)
